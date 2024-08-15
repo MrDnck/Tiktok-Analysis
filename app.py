@@ -126,7 +126,7 @@ def analizar_sentimientos_y_visualizar(comentarios):
 
 st.markdown("""
 ### Código Fuente
-Puedes ver y modificar el código en el siguiente repositorio de GitHub: [Repositorio de GitHub](https://github.com/MrDnck/covid-bolivia)
+Puedes ver y modificar el código en el siguiente repositorio de GitHub: [Repositorio de GitHub](https://github.com/MrDnck/Tiktok-Analysis)
 
 ### Autor
 Cristian Catari
