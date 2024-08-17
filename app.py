@@ -68,7 +68,7 @@ def analizar_sentimientos_y_visualizar(comentarios):
     
     response = co.classify(inputs=texts, model='embed-multilingual-v2.0', examples=examples)
 
-    categories = [classification.predictions[0] for classification in response.classifications]
+    categories = [classification.prediction for classification in response.classifications]
     scores = [classification.confidence for classification in response.classifications]
 
     # Crear un DataFrame para la clasificación de sentimientos
@@ -113,13 +113,21 @@ def analizar_sentimientos_y_visualizar(comentarios):
     df_embeddings['Comment'] = texts
     
     # Seleccionar solo dos dimensiones para graficar
-    fig = px.scatter(df_embeddings, x='Dim_1', y='Dim_2', color='Sentiment', title='Embeddings de Textos por Sentimiento' , hover_data={'Comment': True})
-    st.plotly_chart(fig)
+    fig_scatter = px.scatter(df_embeddings, x='Dim_1', y='Dim_2', color='Sentiment', title='Embeddings de Textos por Sentimiento' , hover_data={'Comment': True})
+    st.plotly_chart(fig_scatter)
+
     # Crear un mapa de calor basado en las dos primeras dimensiones de los embeddings
     heatmap_fig = px.density_heatmap(df_embeddings, x='Dim_1', y='Dim_2', title='Mapa de Calor de los Embeddings')
-    
-    # Mostrar el mapa de calor en Streamlit
     st.plotly_chart(heatmap_fig)
+
+    # Combinar el gráfico de dispersión con el mapa de calor
+    fig_combined = px.density_heatmap(df_embeddings, x='Dim_1', y='Dim_2', title='Embeddings de Textos y Mapa de Calor')
+    fig_combined.add_trace(
+        px.scatter(df_embeddings, x='Dim_1', y='Dim_2', color='Sentiment', hover_data={'Comment': True}).data[0]
+    )
+    
+    # Mostrar el gráfico combinado en Streamlit
+    st.plotly_chart(fig_combined)
     
 
     
